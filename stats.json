@@ -1,7 +1,7 @@
 {
   "compiler": {
     "name": "@stencil/core",
-    "version": "1.0.0-alpha.15"
+    "version": "1.0.0-alpha.20"
   },
   "app": {
     "namespace": "OrangoDemoTools",
@@ -111,7 +111,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-bar/o-demo-bar.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-bar/o-demo-bar.tsx"
       ],
       "modes": [
         "$"
@@ -133,7 +133,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-bar-buttons/o-demo-bar-buttons.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-bar-buttons/o-demo-bar-buttons.tsx"
       ],
       "modes": [
         "$"
@@ -155,7 +155,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-bar-select/o-demo-bar-select.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-bar-select/o-demo-bar-select.tsx"
       ],
       "modes": [
         "$"
@@ -177,7 +177,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-bar-toolbar/o-demo-bar-toolbar.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-bar-toolbar/o-demo-bar-toolbar.tsx"
       ],
       "modes": [
         "$"
@@ -197,7 +197,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-case/o-demo-case.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-case/o-demo-case.tsx"
       ],
       "modes": [
         "$"
@@ -219,7 +219,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-devices/o-demo-devices.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-devices/o-demo-devices.tsx"
       ],
       "modes": [
         "$"
@@ -241,7 +241,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-fab/o-demo-fab.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-fab/o-demo-fab.tsx"
       ],
       "modes": [
         "$"
@@ -261,7 +261,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-modal/o-demo-modal.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-modal/o-demo-modal.tsx"
       ],
       "modes": [
         "$"
@@ -283,7 +283,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-resizer/o-demo-resizer.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-resizer/o-demo-resizer.tsx"
       ],
       "modes": [
         "$"
@@ -305,7 +305,7 @@
       ],
       "bundles": [],
       "inputs": [
-        "/Users/u189083/projects/OSS/o-rango-demo-tools/src/components/o-demo-snackbar/o-demo-snackbar.tsx"
+        "/Users/siag/Personal/Dual Brain/o-rango/o-rango-demo-tools/src/components/o-demo-snackbar/o-demo-snackbar.tsx"
       ],
       "modes": [
         "$"

@@ -1,32 +1,26 @@
-import {
-  Component, h,
-  Prop,
-  Element,
-  Listen,
-  ComponentInterface,
-  State
-} from '@stencil/core';
-import { CssClassMap } from '../utils/CssClassMap'
+import { Component, ComponentInterface, Element, h, Listen, Prop, State } from '@stencil/core';
+import { CssClassMap } from '../utils/CssClassMap';
+
 const win = window as any;
 const colors = {
-  ORANGO: "#fd2b2b",
+  ORANGO: '#fd2b2b',
   WARN: '#f39c12',
   ERROR: '#c0392b',
-  INFO: '#3498db'
-}
+  INFO: '#3498db',
+};
 
 const log = function (color, prefix, msg) {
   var styledPrefix = [
     '%c' + prefix,
-    "background: " + color + "; color: white; padding: 4px 5px; border-radius: 3px; font-size: 0.9em;"
+    'background: ' + color + '; color: white; padding: 4px 5px; border-radius: 3px; font-size: 0.9em;',
   ];
   console.log.apply(console, styledPrefix.concat([msg]));
-}
+};
 
 @Component({
   tag: 'o-demo-bar',
   styleUrl: 'o-demo-bar.scss',
-  shadow: true
+  shadow: true,
 })
 
 
@@ -41,6 +35,8 @@ export class DemoBarComponent implements ComponentInterface {
 
   @Prop() name: string;
   @Prop() events: string = '';
+  @Prop() webComponents: string = '';
+  @Prop() designTokens: string = '';
   @Prop() backgroundColor: string;
   @Prop({ mutable: true }) caseOptionSelected: number = 0;
   @Prop({ mutable: true }) pattern: boolean = true;
@@ -96,10 +92,10 @@ export class DemoBarComponent implements ComponentInterface {
 
     */
 
-    if ("WebSocket" in win && win['s-dev-server']) {
+    if ('WebSocket' in win && win['s-dev-server']) {
       const ws = new WebSocket(`ws://localhost:${win.location.port}/`);
-    
-    
+
+
       ws.onopen = () => {
         log(colors.ORANGO, 'Server', 'Connected Stencil HMR');
         this._setIframe();
@@ -109,10 +105,10 @@ export class DemoBarComponent implements ComponentInterface {
         var msg = JSON.parse(message.data);
         if (msg.buildLog) {
           log(colors.INFO, 'Build Status', ':::::::: Updating ::::::::');
-          msg.buildLog.messages.forEach((msgContent)=>{
+          msg.buildLog.messages.forEach((msgContent) => {
             console.log(msgContent);
-          }); 
-          this.el.forceUpdate();          
+          });
+          this.el.forceUpdate();
           return;
         }
       };
@@ -122,7 +118,7 @@ export class DemoBarComponent implements ComponentInterface {
   @Listen('code-editor-changed')
   codeEditorChangedHandler(event: CustomEvent) {
     console.log('code', event.detail);
-    this._setIframe(event.detail)
+    this._setIframe(event.detail);
   }
 
   @Listen('selectedCaseChanged')
@@ -168,8 +164,38 @@ export class DemoBarComponent implements ComponentInterface {
   }
 
   _launchWindow() {
-    this.urlParams.has('fullscreen') ? false : this.urlParams.set("fullscreen", "true");
+    this.urlParams.has('fullscreen') ? false : this.urlParams.set('fullscreen', 'true');
     win.location.search = this.urlParams.toString();
+  }
+
+  _computeProperty(property: string, separator: string) {
+    return property && property !== '' ? property.split(separator) : false;
+  }
+
+  _setWebComponentsScript() {
+    let result = '';
+    if (this._computeProperty(this.webComponents, ',')) {
+      (this._computeProperty(this.webComponents, ',') as string[]).forEach(script => {
+        result = result + script.includes('esm.js') ?
+          `<script type="module" src="${script}"></script>` :
+          `<script nomodule src="${script}"></script>`;
+      });
+    }
+    return result;
+  }
+
+  _setDesignTokens() {
+    let result = '';
+    let listDesignTokens = [];
+    let dt = this._computeProperty(this.designTokens, ',');
+    (dt as string[]).forEach( item => {
+      const tmpResult = this._computeProperty(item, ':');
+      listDesignTokens.push({name: tmpResult[0], url: tmpResult[1]})
+    })
+    listDesignTokens.forEach( dt => {
+      result = result  + `<link rel="stylesheet" type="text/css" href="${dt.url}">`
+    })
+    return result;
   }
 
   _setSelect() {
@@ -190,19 +216,21 @@ export class DemoBarComponent implements ComponentInterface {
       this._cleanIframe();
       const iframeContainer = this.el.shadowRoot.querySelector('#iframeContainer');
       //Custom BackGround Color
-      if(this.backgroundColor){ iframeContainer.style.backgroundColor = this.backgroundColor};
+      if (this.backgroundColor) {
+        iframeContainer.style.backgroundColor = this.backgroundColor;
+      }
 
       const iframe = document.createElement('iframe');
       const frameH = Math.max(document.documentElement.clientHeight);
-      const frameW = this.fullScreen ? '100%' : `${this.deviceSize.toString()}px`;;
+      const frameW = this.fullScreen ? '100%' : `${this.deviceSize.toString()}px`;
       const style = this.fullScreen ? `body{margin:0;` : `body{margin:0;}`;
       const htmlContent = code ? code : this.demoCases[this.caseOptionSelected].querySelector('template').innerHTML;
       // TODO use different way to set content to improve perf
-      const html = code ? code : `<html><head></head><style>${style}</style><body unresolved ontouchstart id="frameBody">${htmlContent}</body></html>`;
+      const html = code ? code : `<html><head></head><style>${style}</style><body unresolved ontouchstart id="frameBody">${this._setWebComponentsScript()} ${this._setDesignTokens()} ${htmlContent}</body></html>`;
       iframe.height = `${frameH.toString()}px`;
-      iframe.width = frameW
+      iframe.width = frameW;
       iframe.style.border = 'none';
-      iframeContainer.appendChild(iframe)
+      iframeContainer.appendChild(iframe);
       iframe.contentWindow.document.open();
       iframe.contentWindow.document.write(html);
       iframe.contentWindow.document.close();
@@ -212,31 +240,33 @@ export class DemoBarComponent implements ComponentInterface {
 
   // Partials View Functions
   defaultView() {
-    return [<div id="iframeContainer" class="defaultView" />];
+    return [<div id="iframeContainer" class="defaultView"/>];
   }
 
   mobileView() {
-    return [<o-demo-fab />, <o-demo-devices><div id="iframeContainer" class="pattern" slot="screen" /></o-demo-devices>];
+    return [<o-demo-fab/>, <o-demo-devices>
+      <div id="iframeContainer" class="pattern" slot="screen"/>
+    </o-demo-devices>];
   }
 
   fullscreenView() {
-    return [<o-demo-fab close />, <div id="iframeContainer" />]
+    return [<o-demo-fab close/>, <div id="iframeContainer"/>];
   }
 
   mainView() {
-    const bgClasses: CssClassMap = { pattern: this.pattern && !this.deviceEmulate }
-    const deviceClasses: CssClassMap = { hide: this.deviceEmulate }
+    const bgClasses: CssClassMap = { pattern: this.pattern && !this.deviceEmulate };
+    const deviceClasses: CssClassMap = { hide: this.deviceEmulate };
     return (<div id="demo-bar">
-      {this.events.length !== 0 ? <o-demo-snackbar events={this.events} /> : null}
+      {this.events.length !== 0 ? <o-demo-snackbar events={this.events}/> : null}
       <o-demo-bar-toolbar name={this.name}>
-        <o-demo-bar-select slot="center" options={this.casesOptions} />
-        <o-demo-bar-buttons slot="right" />
-        <o-demo-resizer class={deviceClasses} size={this.deviceSize} viewport={this.device} slot="base" />
+        <o-demo-bar-select slot="center" options={this.casesOptions}/>
+        <o-demo-bar-buttons slot="right"/>
+        <o-demo-resizer class={deviceClasses} size={this.deviceSize} viewport={this.device} slot="base"/>
       </o-demo-bar-toolbar>
       <div id="frame-wrap" class={bgClasses}>
         {this.deviceEmulate ? this.mobileView() : this.defaultView()}
       </div>
-    </div>)
+    </div>);
   }
 
   render() {

@@ -13,12 +13,14 @@ export namespace Components {
   interface ODemoBar {
     'backgroundColor': string;
     'caseOptionSelected': number;
+    'designTokens': string;
     'device': string;
     'deviceEmulate': boolean;
     'deviceSize': string;
     'events': string;
     'name': string;
     'pattern': boolean;
+    'webComponents': string;
   }
   interface ODemoBarButtons {}
   interface ODemoBarSelect {
@@ -55,12 +57,14 @@ declare namespace LocalJSX {
   interface ODemoBar extends JSXBase.HTMLAttributes {
     'backgroundColor'?: string;
     'caseOptionSelected'?: number;
+    'designTokens'?: string;
     'device'?: string;
     'deviceEmulate'?: boolean;
     'deviceSize'?: string;
     'events'?: string;
     'name'?: string;
     'pattern'?: boolean;
+    'webComponents'?: string;
   }
   interface ODemoBarButtons extends JSXBase.HTMLAttributes {
     'onToolbarButtonClicked'?: (event: CustomEvent<any>) => void;
